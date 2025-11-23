@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rô Ri Shop - In Điều Bạn Muốn, Tặng Điều Bạn Thương</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b9d;
+            --primary-light: #ffa3c1;
+            --primary-dark: #ff4777;
+            --secondary: #c44569;
+            --accent: #ff8a5b;
+            --bg-light: #fff5f8;
+            --bg-white: #ffffff;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --shadow: rgba(255, 107, 157, 0.15);
+            --shadow-hover: rgba(255, 107, 157, 0.25);
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .top-bar i {
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-white);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 30px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 35px;
+            font-weight: 600;
+            font-size: 15px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            position: relative;
+            transition: color 0.3s;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, var(--accent), var(--primary-dark));
+            color: white;
+            font-size: 11px;
+            padding: 3px 7px;
+            border-radius: 50%;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255, 138, 91, 0.4);
+            animation: bounceIn 0.5s;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+            padding: 80px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA0MCAyMCBMIDAgMjAgTCAwIDQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYxYSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+');
+            top: -50%;
+            left: -50%;
+            animation: float 20s ease-in-out infinite;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--bg-white) 0%, #f8f9fa 100%);
+            color: var(--primary);
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: var(--bg-white);
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 80px 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px var(--shadow-hover);
+        }
+
+        .tag-custom {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, var(--accent), var(--primary-dark));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(255, 138, 91, 0.3);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-cat {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-name {
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-decoration: none;
+            display: block;
+            line-height: 1.4;
+        }
+
+        .product-name:hover {
+            color: var(--primary);
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .add-to-cart {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+        }
+
+        .add-to-cart i {
+            margin-right: 8px;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: var(--bg-white);
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px var(--shadow);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .upload-section h3 {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .upload-section p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .upload-area {
+            border: 3px dashed var(--primary-light);
+            border-radius: 15px;
+            padding: 40px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--bg-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 157, 0.05);
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 157, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Chatbot Widget */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1500;
+        }
+
+        .chat-toggle-btn {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .chat-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255, 107, 157, 0.6);
+        }
+
+        .chat-notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: var(--bg-white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-window.show {
+            display: flex;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .bot-avatar {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .bot-info h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .bot-status {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        .chat-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .chat-close-btn:hover {
+            opacity: 1;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .chat-message {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .chat-message.user .message-avatar {
+            background: var(--primary-light);
+            order: 2;
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .message-bubble {
+            background: var(--bg-light);
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 250px;
+            line-height: 1.4;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        .chat-message.user .message-bubble {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .typing-indicator.show {
+            display: flex;
+        }
+
+        .typing-dots {
+            background: var(--bg-light);
+            padding: 12px 16px;
+            border-radius: 18px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .quick-actions {
+            padding: 15px 20px;
+            border-top: 1px solid var(--bg-light);
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            background: var(--bg-light);
+            border: 1px solid var(--primary-light);
+            padding: 6px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+
+        .quick-action-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .chat-input-area {
+            padding: 15px 20px;
+            border-top: 1px solid var(--bg-light);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--bg-light);
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .chat-send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send-btn:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .chat-send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .chat-error {
+            background: #ffe6e6;
+            color: var(--danger);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Connection Status */
+        .connection-status {
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 12px;
+            background: var(--warning);
+            color: white;
+            display: none;
+        }
+
+        .connection-status.offline {
+            display: block;
+            background: var(--danger);
+        }
+
+        .connection-status.connecting {
+            display: block;
+            background: var(--warning);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--text-dark) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px 30px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-light);
+        }
+
+        .footer-col p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .footer-col ul li:hover {
+            opacity: 1;
+        }
+
+        .footer-col ul li i {
+            margin-right: 8px;
+            color: var(--primary-light);
+        }
+
+        .footer-col ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 15px 20px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+                font-size: 14px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section-title h2 {
+                font-size: 28px;
+            }
+
+            .upload-section {
+                padding: 30px 20px;
+            }
+
+            .chat-window {
+                width: 90vw;
+                height: 80vh;
+                bottom: 20px;
+                right: 5vw;
+            }
+        }
+
+        /* Loading spinner for send button */
+        .spinner-small {
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <i class="fas fa-gift"></i>
+        MIỄN PHÍ THIẾT KẾ - GIAO HÀNG TOÀN QUỐC - ƯU ĐÃI LỚN CHO ĐƠN HÀNG TỪ 500K
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="nav-container">
+            <div class="logo">RÔ RI SHOP</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#products">Sản phẩm</a></li>
+                <li><a href="#about">Giới thiệu</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+            </ul>
+            <div class="cart-icon" onclick="openCartModal()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount" style="display: none;">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>In Điều Bạn Muốn<br>Tặng Điều Bạn Thương</h1>
+            <p>Chuyên các sản phẩm quà tặng cá nhân hóa độc đáo - Ly, cốc, áo thun, tranh canvas...</p>
+            <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-shopping-bag"></i> XEM SẢN PHẨM
+            </button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="section-title">
+            <h2>SẢN PHẨM NỔI BẬT</h2>
+            <p>Những sản phẩm độc đáo được thiết kế riêng cho bạn</p>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded from API -->
+        </div>
+
+        <div class="upload-section">
+            <h3><i class="fas fa-cloud-upload-alt"></i> BẠN ĐÃ CÓ FILE THIẾT KẾ?</h3>
+            <p>Gửi ngay ảnh của bạn, Rô Ri Shop sẽ in thử mẫu demo gửi lại bạn xem trước!</p>
+            
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="upload-text">Kéo thả hoặc click để chọn ảnh</div>
+                <div class="upload-hint">Hỗ trợ: JPG, PNG, PDF (Tối đa 10MB)</div>
+                <input type="file" id="fileInput" class="file-input" accept="image/*,.pdf" multiple>
+            </div>
+            
+            <div id="uploadedFiles" class="uploaded-files"></div>
+            
+            <button class="btn-primary" onclick="sendToMessenger()" style="margin-top: 20px;">
+                <i class="fab fa-facebook-messenger"></i> GỬI ẢNH QUA MESSENGER
+            </button>
+        </div>
+    </section>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chat-toggle-btn" id="chatToggleBtn" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+            <span class="chat-notification-badge" id="chatBadge" style="display: none;">1</span>
+        </button>
+
+        <div class="chat-window" id="chatWindow">
+            <div class="connection-status" id="connectionStatus">
+                Đang kết nối tới server...
+            </div>
+            
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="bot-avatar">🤖</div>
+                    <div class="bot-info">
+                        <h4>RIO BOT</h4>
+                        <div class="bot-status">
+                            <span class="status-dot"></span>
+                            <span id="botStatusText">Đang hoạt động</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="chat-close-btn" onclick="toggleChat()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-bubble">
+                        Xin chào! Tôi là RIO BOT, trợ lý tư vấn của Rô Ri Shop. 
+                        Tôi có thể giúp bạn tìm hiểu về sản phẩm, giá cả, chính sách giao hàng. 
+                        Bạn cần tư vấn gì hôm nay? 😊
+                    </div>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="message-avatar">🤖</div>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-action-btn" onclick="sendQuickMessage('Có những sản phẩm nào?')">
+                    📦 Sản phẩm
+                </button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Giá cả thế nào?')">
+                    💰 Giá cả
+                </button>
+                <button class="quick-action-btn" onclick="sendQuickMessage('Giao hàng như thế nào?')">
+                    🚚 Giao hàng
+                </button>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="chat-input-wrapper">
+                    <input 
+                        type="text" 
+                        class="chat-input" 
+                        id="chatInput" 
+                        placeholder="Nhập tin nhắn..."
+                        onkeypress="handleChatKeyPress(event)"
+                    >
+                    <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>RÔ RI SHOP</h3>
+                <p>In điều bạn muốn - Tặng điều bạn thương. Chuyên các sản phẩm quà tặng cá nhân hóa độc đáo.</p>
+            </div>
+            <div class="footer-col">
+                <h3>DANH MỤC</h3>
+                <ul>
+                    <li>Ly & Cốc</li>
+                    <li>Bình Giữ Nhiệt</li>
+                    <li>Áo Thun</li>
+                    <li>Tranh Canvas</li>
+                    <li>Set Quà Tặng</li>
+                    <li>Móc Khóa</li>
+                    <li>Túi Tote</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>LIÊN HỆ</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> Hotline: 0905 298 298</li>
+                    <li><i class="fas fa-envelope"></i> Email: contact@rorishop.com</li>
+                    <li><i class="fab fa-facebook"></i> Facebook: /rorishop.official</li>
+                    <li><i class="fab fa-instagram"></i> Instagram: @rorishop</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Địa chỉ: Hà Nội, Việt Nam</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>CHÍNH SÁCH</h3>
+                <ul>
+                    <li>Chính sách đổi trả</li>
+                    <li>Chính sách bảo mật</li>
+                    <li>Điều khoản sử dụng</li>
+                    <li>Hướng dẫn đặt hàng</li>
+                    <li>Chính sách giao hàng</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Rô Ri Shop. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:5000/api';
+        let isConnected = false;
+        let userSession = 'user_' + Math.random().toString(36).substr(2, 9);
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            checkServerConnection();
+        });
+
+        // App Initialization
+        async function initializeApp() {
+            try {
+                await loadProducts();
+                initializeUpload();
+                
+                // Show notification for first visit
+                if (!localStorage.getItem('rorishop_visited')) {
+                    localStorage.setItem('rorishop_visited', 'true');
+                    setTimeout(() => {
+                        document.getElementById('chatBadge').style.display = 'block';
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Failed to initialize app:', error);
+            }
+        }
+
+        // Check Server Connection
+        async function checkServerConnection() {
+            try {
+                const response = await fetch(`${API_BASE_URL.replace('/api', '')}/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                if (response.ok) {
+                    isConnected = true;
+                    updateConnectionStatus('connected');
+                    document.getElementById('botStatusText').textContent = 'Đang hoạt động';
+                } else {
+                    throw new Error('Server not responding');
+                }
+            } catch (error) {
+                isConnected = false;
+                updateConnectionStatus('offline');
+                document.getElementById('botStatusText').textContent = 'Offline';
+                console.error('Server connection failed:', error);
+            }
+        }
+
+        function updateConnectionStatus(status) {
+            const statusEl = document.getElementById('connectionStatus');
+            statusEl.className = `connection-status ${status}`;
+            
+            switch(status) {
+                case 'connected':
+                    statusEl.style.display = 'none';
+                    break;
+                case 'connecting':
+                    statusEl.style.display = 'block';
+                    statusEl.textContent = 'Đang kết nối...';
+                    break;
+                case 'offline':
+                    statusEl.style.display = 'block';
+                    statusEl.textContent = 'Mất kết nối server - Chat có thể không hoạt động';
+                    break;
+            }
+        }
+
+        // Load Products from API
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`);
+                if (!response.ok) throw new Error('Failed to load products');
+                
+                const data = await response.json();
+                if (data.success) {
+                    displayProducts(data.products);
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                // Load fallback products if API fails
+                loadFallbackProducts();
+            }
+        }
+
+        function loadFallbackProducts() {
+            const fallbackProducts = {
+                ly_su: {
+                    name: "Ly Sứ In Hình Theo Yêu Cầu",
+                    price: 120000,
+                    category: "Ly & Cốc",
+                    image: "https://res.cloudinary.com/dbywqqpab/image/upload/v1763719899/569064845_3776854105886058_4142418458772644736_n_vmxnyf.jpg"
+                },
+                binh_giu_nhiet: {
+                    name: "Bình Giữ Nhiệt In Logo Công Ty",
+                    price: 250000,
+                    category: "Bình Giữ Nhiệt",
+                    image: "https://res.cloudinary.com/dbywqqpab/image/upload/v1763720360/575751970_3792779777626824_5457037055033906036_n_xjhwjg.jpg"
+                },
+                ao_thun: {
+                    name: "Áo Thun In Hình Theo Thiết Kế",
+                    price: 180000,
+                    category: "Áo Thun",
+                    image: "https://res.cloudinary.com/dbywqqpab/image/upload/v1763720604/498096056_652336837821499_6766952987013647625_n_n5gvty.jpg"
+                }
+            };
+            displayProducts(fallbackProducts);
+        }
+
+        function displayProducts(products) {
+            const grid = document.getElementById('productsGrid');
+            
+            const productHTML = Object.entries(products).map(([key, product]) => `
+                <div class="product-card">
+                    <span class="tag-custom">${getProductTag(key)}</span>
+                    <img src="${product.image || 'https://via.placeholder.com/400x250'}" 
+                        alt="${product.name}" class="product-img">
+                    <div class="product-info">
+                        <div class="product-cat">${product.category}</div>
+                        <a href="#" class="product-name">${product.name}</a>
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                        <button class="add-to-cart" onclick="addToCart('${key}', '${product.name}', ${product.price}, '${product.image}')">
+                            <i class="fas fa-cart-plus"></i> Thêm Vào Giỏ
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            grid.innerHTML = productHTML;
+        }
+
+        function getProductTag(key) {
+            const tags = {
+                ly_su: "🔥 Best Seller",
+                binh_giu_nhiet: "🌟 Mới",
+                ao_thun: "👕 Thời trang",
+                box_qua_tang: "🎁 Quà 20/11",
+                moc_khoa: "🔑 Móc khóa",
+                tui_tote: "👜 Túi Tote"
+            };
+            return tags[key] || "✨ Hot";
+        }
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(price);
+        }
+
+        // Simple cart functionality (no API needed)
+        let cart = JSON.parse(localStorage.getItem('rorishop_cart') || '[]');
+
+        function addToCart(id, name, price, image) {
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, image, quantity: 1 });
+            }
+            
+            localStorage.setItem('rorishop_cart', JSON.stringify(cart));
+            updateCartDisplay();
+            showNotification('Đã thêm sản phẩm vào giỏ hàng!');
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartCount.textContent = totalItems;
+                cartCount.style.display = 'block';
+            } else {
+                cartCount.style.display = 'none';
+            }
+        }
+
+        function openCartModal() {
+            showNotification('Chức năng giỏ hàng đang được phát triển!');
+        }
+
+        // Chat Functionality
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatBadge = document.getElementById('chatBadge');
+            
+            if (chatWindow.classList.contains('show')) {
+                chatWindow.classList.remove('show');
+            } else {
+                chatWindow.classList.add('show');
+                chatBadge.style.display = 'none';
+                setTimeout(() => {
+                    document.getElementById('chatInput').focus();
+                }, 300);
+            }
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('chatSendBtn');
+            const message = input.value.trim();
+            
+            if (!message || !isConnected) {
+                if (!isConnected) {
+                    showChatError('Không thể kết nối tới server. Vui lòng thử lại sau.');
+                }
+                return;
+            }
+            
+            // Disable input and show loading
+            input.disabled = true;
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<div class="spinner-small"></div>';
+            
+            // Add user message
+            addMessageToChat('user', message, '👤');
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session: userSession
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    hideTypingIndicator();
+                    addMessageToChat('bot', data.message, '🤖');
+                } else {
+                    throw new Error(data.error || 'Unknown error');
+                }
+                
+            } catch (error) {
+                console.error('Chat error:', error);
+                hideTypingIndicator();
+                showChatError('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                
+                // Fallback response
+                setTimeout(() => {
+                    addMessageToChat('bot', 'Xin lỗi, tôi gặp sự cố kỹ thuật. Vui lòng liên hệ hotline 0905 298 298 để được hỗ trợ trực tiếp! 📞', '🤖');
+                }, 1000);
+                
+            } finally {
+                // Re-enable input
+                input.disabled = false;
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                input.focus();
+            }
+        }
+
+        function sendQuickMessage(message) {
+            document.getElementById('chatInput').value = message;
+            sendChatMessage();
+        }
+
+        function addMessageToChat(type, message, avatar) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${type}`;
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-bubble">${message}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').classList.add('show');
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').classList.remove('show');
+        }
+
+        function showChatError(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'chat-error';
+            errorDiv.textContent = message;
+            chatMessages.appendChild(errorDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendChatMessage();
+            }
+        }
+
+        // File Upload Functionality
+        function initializeUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+
+            uploadArea.addEventListener('click', () => fileInput.click());
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+        }
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification('File quá lớn! Vui lòng chọn file nhỏ hơn 10MB.', 'error');
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
+                    showNotification('Chỉ hỗ trợ file ảnh (JPG, PNG) và PDF!', 'error');
+                    return;
+                }
+                
+                showNotification(`Đã chọn file: ${file.name}`);
+            });
+        }
+
+        function sendToMessenger() {
+            window.open('https://m.me/rorishop.official', '_blank');
+        }
+
+        // Utility Functions
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'error' ? 'var(--danger)' : 'var(--success)'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+                z-index: 3000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize cart display on load
+        updateCartDisplay();
+
+        // Retry connection every 30 seconds if disconnected
+        setInterval(() => {
+            if (!isConnected) {
+                checkServerConnection();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
